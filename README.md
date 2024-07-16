@@ -1,66 +1,35 @@
-## Foundry
+# @patronumlabs/erc725.vy
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/license/mit)
 
-Foundry consists of:
+This repo is an implementation of the ERC725 standard in Vyper. It contains ERC725Y and ERC725X:
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- ERC725Y represents a generic key-value store that can be used to store arbitrary data for smart contracts. This can include identity information, metadata, or any other type of data that needs to be associated with a smart contract.
 
-## Documentation
-
-https://book.getfoundry.sh/
+- ERC725X represents a generic execute function that allows a smart contract to execute arbitrary transactions. This can be used to implement proxy functionality, allowing the contract to interact with other contracts or perform complex operations.
 
 ## Usage
 
-### Build
+* Refer to [Vyper documentation](https://docs.vyperlang.org/en/stable/) to install Vyper.
+* Refer to [Foundry documentation](https://book.getfoundry.sh/) to install Foundry.
 
-```shell
-$ forge build
+After installation, you can build and test the contracts:
+
+### Build Vyper contracts
+
+```bash
+npm run build
 ```
 
-### Test
+### Test in Foundry
 
-```shell
-$ forge test
+```bash
+npm run test
 ```
 
-### Format
+## Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-```shell
-$ forge fmt
-```
+## License
 
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+This project is licensed under the MIT License - see the LICENSE file for details.
