@@ -8,6 +8,8 @@ This repo is an implementation of the ERC725 standard in Vyper. It contains ERC7
 
 - ERC725X represents a generic execute function that allows a smart contract to execute arbitrary transactions. This can be used to implement proxy functionality, allowing the contract to interact with other contracts or perform complex operations.
 
+> This implementation is not audited. Please use at your own risk!
+
 ## Usage
 
 * Refer to [Vyper documentation](https://docs.vyperlang.org/en/stable/) to install Vyper.
