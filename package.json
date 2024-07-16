@@ -1,0 +1,33 @@
+{
+  "name": "@patronumlabs/erc725.vy",
+  "version": "1.0.0",
+  "description": "Implementation of the ERC725 Standard in vyper",
+  "author": "Yamen Merhi (0xYamen)",
+  "homepage": "https://github.com/Patronum-Labs/erc725.vy#readme",
+  "bugs": {
+    "url": "https://github.com/Patronum-Labs/erc725.vy/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Patronum-Labs/erc725.vy.git"
+  },
+  "scripts": {
+    "build": "vyper src/**.vy",
+    "test": "forge test"
+  },
+  "keywords": [
+    "vyper",
+    "ERC725",
+    "ERC725Y",
+    "ERC725X",
+    "Generic key value store",
+    "Generic executor",
+    "ERC725Account"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.2",
+    "ds-test": "github:dapphub/ds-test",
+    "forge-std": "github:foundry-rs/forge-std"
+  }
+}
