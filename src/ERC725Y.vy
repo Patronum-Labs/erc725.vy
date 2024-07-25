@@ -24,7 +24,7 @@ owner: public(address)
 store: public(HashMap[bytes32, Bytes[1024]])
 
 # Constants
-ERC725Y_INTERFACE_ID: constant(bytes4) = 0x2bd57b73
+ERC725Y_INTERFACE_ID: constant(bytes4) = 0x629aa694
 ERC165_INTERFACE_ID: constant(bytes4) = 0x01ffc9a7
 
 @external

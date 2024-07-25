@@ -32,7 +32,7 @@ contract ERC725YTest is Test {
     // ERC165 Tests
     function testSupportsInterface() public view {
         assertTrue(
-            erc725y.supportsInterface(0x2bd57b73),
+            erc725y.supportsInterface(0x629aa694),
             "Should support ERC725Y interface"
         );
         assertTrue(
