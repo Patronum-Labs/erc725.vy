@@ -246,4 +246,49 @@ contract ERC725YTest is Test {
         vm.expectRevert();
         erc725y.setData(TEST_KEY, overMaxSizeValue);
     }
+
+    function testSetDataPayable() public {
+        uint256 amount = 1 ether;
+        bytes32 key = keccak256("payableTest");
+        bytes memory value = abi.encode("Payable Test");
+
+        erc725y.setData{value: amount}(key, value);
+
+        assertEq(
+            erc725y.getData(key),
+            value,
+            "Data should be set correctly when sending value"
+        );
+        assertEq(
+            address(erc725y).balance,
+            amount,
+            "Contract should receive the sent value"
+        );
+    }
+
+    function testSetDataBatchPayable() public {
+        uint256 amount = 2 ether;
+        bytes32[] memory keys = new bytes32[](2);
+        bytes[] memory values = new bytes[](2);
+
+        keys[0] = keccak256("payableBatchTest1");
+        keys[1] = keccak256("payableBatchTest2");
+        values[0] = abi.encode("Payable Batch Test 1");
+        values[1] = abi.encode("Payable Batch Test 2");
+
+        erc725y.setDataBatch{value: amount}(keys, values);
+
+        for (uint i = 0; i < keys.length; i++) {
+            assertEq(
+                erc725y.getData(keys[i]),
+                values[i],
+                "Batch data should be set correctly when sending value"
+            );
+        }
+        assertEq(
+            address(erc725y).balance,
+            amount,
+            "Contract should receive the sent value for batch operation"
+        );
+    }
 }
