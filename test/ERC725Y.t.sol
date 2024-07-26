@@ -78,6 +78,12 @@ contract ERC725YTest is Test {
 
     // Single Data Operations Tests
     function testSetAndGetData() public {
+        assertEq(
+            erc725y.getData(TEST_KEY),
+            "",
+            "Data should be empty before setting"
+        );
+
         erc725y.setData(TEST_KEY, TEST_VALUE);
         assertEq(
             erc725y.getData(TEST_KEY),
@@ -153,11 +159,11 @@ contract ERC725YTest is Test {
         );
     }
 
-    function testSetAndGetDataBatchLargeArrays() public {
-        bytes32[] memory keys = new bytes32[](128);
-        bytes[] memory values = new bytes[](128);
+    function testSetAndGetDataBatchLargeArraysBelowLimit() public {
+        bytes32[] memory keys = new bytes32[](255);
+        bytes[] memory values = new bytes[](255);
 
-        for (uint i = 0; i < 128; i++) {
+        for (uint i = 0; i < 255; i++) {
             keys[i] = keccak256(abi.encodePacked("key", i));
             values[i] = abi.encode(i);
         }
@@ -176,10 +182,10 @@ contract ERC725YTest is Test {
     }
 
     function testSetDataBatchExceedMaxLength() public {
-        bytes32[] memory keys = new bytes32[](129);
-        bytes[] memory values = new bytes[](129);
+        bytes32[] memory keys = new bytes32[](257);
+        bytes[] memory values = new bytes[](257);
 
-        for (uint i = 0; i < 129; i++) {
+        for (uint i = 0; i < 257; i++) {
             keys[i] = keccak256(abi.encodePacked("key", i));
             values[i] = abi.encode(i);
         }

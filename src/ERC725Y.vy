@@ -11,13 +11,13 @@ from vyper.interfaces import ERC165
 implements: ERC165
 
 # Events
-event DataChanged:
-    dataKey: indexed(bytes32)
-    dataValue: Bytes[1024]
-
 event OwnershipTransferred:
     previousOwner: indexed(address)
     newOwner: indexed(address)
+
+event DataChanged:
+    dataKey: indexed(bytes32)
+    dataValue: Bytes[1024]
 
 # Storage variables
 owner: public(address)
@@ -26,6 +26,9 @@ store: public(HashMap[bytes32, Bytes[1024]])
 # Constants
 ERC725Y_INTERFACE_ID: constant(bytes4) = 0x629aa694
 ERC165_INTERFACE_ID: constant(bytes4) = 0x01ffc9a7
+
+# @dev Stores the 1-byte upper bound for the dynamic arrays.
+_DYNARRAY_BOUND: constant(uint8) = max_value(uint8)
 
 @external
 def __init__(_owner: address):
@@ -92,19 +95,19 @@ def setData(dataKey: bytes32, dataValue: Bytes[1024]):
 
 @external
 @view
-def getDataBatch(dataKeys: DynArray[bytes32, 128]) -> DynArray[Bytes[1024], 128]:
+def getDataBatch(dataKeys: DynArray[bytes32, _DYNARRAY_BOUND]) -> DynArray[Bytes[1024], _DYNARRAY_BOUND]:
     """
     @dev Gets data for multiple keys.
     @param dataKeys The array of keys which values to retrieve.
     @return An array of the values for each key.
     """
-    values: DynArray[Bytes[1024], 128] = []
+    values: DynArray[Bytes[1024], _DYNARRAY_BOUND] = []
     for key in dataKeys:
         values.append(self._getData(key))
     return values
 
 @external
-def setDataBatch(dataKeys: DynArray[bytes32, 128], dataValues: DynArray[Bytes[1024], 128]):
+def setDataBatch(dataKeys: DynArray[bytes32, _DYNARRAY_BOUND], dataValues: DynArray[Bytes[1024], _DYNARRAY_BOUND]):
     """
     @dev Sets data for multiple keys.
     @notice Only callable by the owner.
