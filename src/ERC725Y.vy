@@ -83,6 +83,7 @@ def getData(dataKey: bytes32) -> Bytes[1024]:
     return self._getData(dataKey)
 
 @external
+@payable
 def setData(dataKey: bytes32, dataValue: Bytes[1024]):
     """
     @dev Sets data at a given `dataKey`.
@@ -107,6 +108,7 @@ def getDataBatch(dataKeys: DynArray[bytes32, _DYNARRAY_BOUND]) -> DynArray[Bytes
     return values
 
 @external
+@payable
 def setDataBatch(dataKeys: DynArray[bytes32, _DYNARRAY_BOUND], dataValues: DynArray[Bytes[1024], _DYNARRAY_BOUND]):
     """
     @dev Sets data for multiple keys.
