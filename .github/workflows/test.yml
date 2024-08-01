@@ -1,32 +1,62 @@
 name: test
 
-on: push
+on: [push, pull_request, workflow_dispatch]
 
 env:
   FOUNDRY_PROFILE: ci
 
 jobs:
   check:
+    runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: true
+      matrix:
+        os:
+          - ubuntu-latest
+        python_version:
+          - 3.12
+        architecture:
+          - x64
+        node_version:
+          - 20
 
-    name: Foundry project
-    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python_version }}
+          architecture: ${{ matrix.architecture }}
+
+      - name: Install latest Vyper
+        run: pip install --force-reinstall vyper
+
+      - name: Show the Vyper version
+        run: vyper --version
+
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node_version }}
+          cache: "npm"
+
+      - name: 📦 Install dependencies
+        run: npm install
 
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
           version: nightly
 
-      - name: Run Forge build
-        run: |
-          forge --version
-          forge build --sizes
-        id: build
+      - name: Show the Foundry CI config
+        run: forge config
+        env:
+          FOUNDRY_PROFILE: ci
 
-      - name: Run Forge tests
-        run: |
-          forge test -vvv
-        id: test
+      - name: Foundry tests
+        run: forge test
+        env:
+          FOUNDRY_PROFILE: ci
