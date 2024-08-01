@@ -6,9 +6,9 @@
 @notice This contract implements the ERC725Y standard with ownership control and interface detection.
 """
 
-from vyper.interfaces import ERC165
+from ethereum.ercs import IERC165
 
-implements: ERC165
+implements: IERC165
 
 # Events
 event OwnershipTransferred:
@@ -30,7 +30,7 @@ ERC165_INTERFACE_ID: constant(bytes4) = 0x01ffc9a7
 # @dev Stores the 1-byte upper bound for the dynamic arrays.
 _DYNARRAY_BOUND: constant(uint8) = max_value(uint8)
 
-@external
+@deploy
 def __init__(_owner: address):
     """
     @dev Initializes the contract, setting the provided address as the initial owner.
@@ -103,7 +103,7 @@ def getDataBatch(dataKeys: DynArray[bytes32, _DYNARRAY_BOUND]) -> DynArray[Bytes
     @return An array of the values for each key.
     """
     values: DynArray[Bytes[1024], _DYNARRAY_BOUND] = []
-    for key in dataKeys:
+    for key: bytes32 in dataKeys:
         values.append(self._getData(key))
     return values
 
@@ -120,7 +120,7 @@ def setDataBatch(dataKeys: DynArray[bytes32, _DYNARRAY_BOUND], dataValues: DynAr
     assert len(dataKeys) == len(dataValues), "ERC725Y: keys and values length mismatch"
     assert len(dataKeys) > 0, "ERC725Y: empty arrays"
 
-    for i in range(256): 
+    for i: uint256 in range(256): 
         if i >= len(dataKeys):
             break
         self._setData(dataKeys[i], dataValues[i])
